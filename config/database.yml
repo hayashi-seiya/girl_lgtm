@@ -11,15 +11,17 @@
 #
 default: &default
   adapter: mysql2
-  encoding: utf8
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_bin
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
-  host: localhost
+  username: <%= ENV.fetch("APP_DATABASE_USERNAME") { 'root' } %>
+  password: <%= ENV.fetch("APP_DATABASE_PASSWORD") { '' } %>
+  host: <%= ENV.fetch("APP_DATABASE_HOST") { '127.0.0.1' } %>
 
 development:
   <<: *default
-  database: girl_lgtm_development
+  database: girl_lgtm_dev
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -48,7 +50,4 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: girl_lgtm_production
-  username: girl_lgtm
-  password: <%= ENV['GIRL_LGTM_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
